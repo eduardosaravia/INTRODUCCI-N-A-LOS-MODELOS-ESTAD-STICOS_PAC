@@ -18,9 +18,16 @@ Este proyecto académico colaborativo ha sido desarrollado por los siguientes in
 - Alexi Arias Saravia
 - Eduardo Saravia Ocampo
 
-## Contribuciones
+## Problematica
 
-¡Todas las contribuciones son bienvenidas! Si deseas contribuir con ejemplos adicionales, corregir errores o mejorar la documentación, no dudes en hacer una solicitud de extracción (pull request).
+En nuestro país, en especifico en la región de Piura se han registrado muchos casos de violencia, ya sea Psicológica, Física o Sexual. El problema es que esta violencia afecta a un amplio espectro de la población, y es crucial identificar los rangos de edades en los que las personas son más propensas a sufrir estos tipos de violencia.
+
+## Objetivos
+
+Nuestro proyecto tiene como objetivo:
+ - Identificar cual es el rango de edades donde las personas son mas propensas a sufrir violencia
+ - Identificar cual es el tipo de violencia que mas se sufre en nuestro pais.
+ - 
 
 ## Dataset
 
