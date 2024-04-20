@@ -1,0 +1,121 @@
+---
+title: "PCA con EDA y GGPLOT2"
+author: "Maestría en Ciencia de Datos"
+date: "2024-04-19"
+output: html_document
+---
+
+
+
+```{r}
+
+# Cargar el paquete ggplot2
+library(ggplot2)
+```
+
+
+# Lee el dataset
+datos <- read.csv("/home/eduardo/R/PCA/violencia_diresav02.csv")
+
+# Muestra las primeras filas del dataset
+head(datos)
+
+# Se revisa el dataset
+resumen_estadistico <- summary(datos)
+
+# Crea un histograma de la columna Periodo
+hist(datos$PERIODO, 
+     main = "Histograma de IPRESS",
+     xlab = "Periodo",
+     ylab = "Frecuencia")
+     
+
+
+# Crea un histograma para la Cantidad de Victimas del Sexo Femenino
+hist(datos$F_VIO, main = "Histograma de f_vio", xlab = "F_VIO", col = "blue")
+
+ 
+# Crea un histograma para la Cantidad de Victimas del Sexo Masculino
+hist(datos$M_VIO, main = "Histograma de M_vio", xlab = "M_VIO", col = "blue")
+
+
+## Barras
+```{r}
+# Crear un gráfico de barras
+library(dplyr)
+
+nprov <- datos %>% group_by(PROVINCIA) %>% count()
+
+ggplot(nprov, aes(x = PROVINCIA, y = n)) + 
+  geom_bar(stat = "identity") +
+  labs(x = "PROVINCIA", y = "Cantidad")
+
+
+
+# Una serie básica
+ggplot(datos, aes(x=F_VIO, y=PROVINCIA)) + 
+  geom_line(color = 'darkblue') + 
+  theme_bw() + 
+  labs(title = 'Datos de violencia al sexo Femenino', x = 'Casos de Violencia al Sexo Femenino', y = 'Provincia')
+
+
+# Con títulos y colores diferenciados
+ggplot(datos, aes(x=F_VIO, y=PROVINCIA)) + 
+  geom_bar(stat="identity") + 
+  theme_bw() + 
+  coord_flip() +
+  labs(title = 'Datos de violencia al sexo Femenino', x = 'Casos de Violencia al Sexo Femenino', y = 'Provincia')
+
+ggplot(datos, aes(x=F_VIO, y=PROVINCIA)) + 
+  coord_flip() +
+  geom_point()
+
+
+
+
+
+# Rango de edades en donde el sexo femenino ha sido victima de mayores casos de violencia 
+
+# Combinar las columnas de rango de edades en una sola columna
+datos_edades<- datos %>%
+  mutate(Rango_Edades = case_when(
+    !is.na(X5_VIO) ~ "5-10",
+    !is.na(X6_11_VIO) ~ "11-14",
+    !is.na(X12_14_VIO) ~ "12-14",
+    !is.na(X15_17_VIO) ~ "15-17",
+    !is.na(X18_29_VIO) ~ "18-29",
+    !is.na(X30_59_VIO) ~ "30-59",
+    !is.na(X60_VIO) ~ "60+",
+    TRUE ~ "Desconocido"
+  )) %>%
+  select(Rango_Edades, F_VIO, M_VIO, VIO_PSICO, VIO_FISI, VIO_SEX,PROVINCIA,DISTRITO)
+
+
+datos_edades_provincia <- datos %>%
+  mutate(Rango_Edades = case_when(
+    !is.na(X5_VIO) ~ "5-10",
+    !is.na(X6_11_VIO) ~ "11-14",
+    !is.na(X12_14_VIO) ~ "12-14",
+    !is.na(X15_17_VIO) ~ "15-17",
+    !is.na(X18_29_VIO) ~ "18-29",
+    !is.na(X30_59_VIO) ~ "30-59",
+    !is.na(X60_VIO) ~ "60+",
+    TRUE ~ "Desconocido"
+  )) %>%
+  group_by(Rango_Edades, PROVINCIA) %>%
+  summarise(Total_Violencia = sum(F_VIO + M_VIO))
+
+
+ggplot(datos_edades_provincia, aes(x = Rango_Edades, y = Total_Violencia, fill = PROVINCIA)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Rango de Edades", y = "Total de Violencia", title = "Total de Violencia por Rango de Edades y Provincia") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+
+
+
+     
+     
