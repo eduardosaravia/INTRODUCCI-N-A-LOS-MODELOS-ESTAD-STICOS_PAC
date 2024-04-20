@@ -27,7 +27,7 @@ En nuestro país, en especifico en la región de Piura se han registrado muchos 
 Nuestro proyecto tiene como objetivo:
  - Identificar cual es el rango de edades donde las personas son mas propensas a sufrir violencia
  - Identificar cual es el tipo de violencia que mas se sufre en nuestro pais.
- - 
+
 
 ## Dataset
 
