@@ -26,6 +26,4 @@ Este proyecto académico colaborativo ha sido desarrollado por los siguientes in
 
 El dataset público utilizado en este proyecto está disponible en [Casos agrupados mensualmente de violencia contra la mujer y los integrantes del grupo familiar, atendidos por establecimiento de salud en la Región Piura](https://www.datosabiertos.gob.pe/dataset/casos-agrupados-mensualmente-de-violencia-contra-la-mujer-y-los-integrantes-del-grupo) proporcionado por el Gobierno Regional Piura - GRP.
 
-## Licencia
 
-Este proyecto está bajo la [Licencia MIT](LICENSE).
