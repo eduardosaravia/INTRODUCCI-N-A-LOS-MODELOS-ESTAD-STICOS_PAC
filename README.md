@@ -28,6 +28,13 @@ Nuestro proyecto tiene como objetivo:
  - Identificar cual es el rango de edades donde las personas son mas propensas a sufrir violencia
  - Identificar cual es el tipo de violencia que mas se sufre en nuestro pais.
 
+# Desarrollo del caso
+
+Iniciamos revisando nuestra data en R, analizando las columnas y revisando que tipos de datos nos brinda, al observar que son numericos y categoricos procedemos a generar histogrames para las variables.
+De acuerdo a nuestro objetivo nos sentramos en revisar las variables "Provincia", "Distrito" y obtenemos un rango de edades segun las columnas que indican agresión por edad.
+Para poder responder nuestros objetivos hemos realizado cuadros ggplot para visualizar el grupo que ha sufrido mas violencia, siendo los rangos entre 5 a 10 años
+Se obtuvo el mayor tipo de violencia sufrido.
+![image](https://github.com/eduardosaravia/Modelos_estadisticos_pac/assets/77365817/ab188173-4314-4190-9b8e-a38c38d4ed19)
 
 ## Dataset
 
