@@ -34,8 +34,13 @@ Iniciamos revisando nuestra data en R, analizando las columnas y revisando que t
 De acuerdo a nuestro objetivo nos sentramos en revisar las variables "Provincia", "Distrito" y obtenemos un rango de edades segun las columnas que indican agresión por edad.
 Para poder responder nuestros objetivos hemos realizado cuadros ggplot para visualizar el grupo que ha sufrido mas violencia, siendo los rangos entre 5 a 10 años
 Se obtuvo el mayor tipo de violencia sufrido.
+
 ![image](https://github.com/eduardosaravia/Modelos_estadisticos_pac/assets/77365817/ab188173-4314-4190-9b8e-a38c38d4ed19)
 
+Posteriomente, se pudieron responder los objetivos gracias a estas visualizacions.
+
+# Conclusión
+Basado en los graficos y analisis de los datos podemos concluir que los menores entre 5-10 años son la población mas vulnerable a violencia en la region de Piura, el tipo de violencia que mas se sufre es la violencia Fisica.
 ## Dataset
 
 El dataset público utilizado en este proyecto está disponible en [Casos agrupados mensualmente de violencia contra la mujer y los integrantes del grupo familiar, atendidos por establecimiento de salud en la Región Piura](https://www.datosabiertos.gob.pe/dataset/casos-agrupados-mensualmente-de-violencia-contra-la-mujer-y-los-integrantes-del-grupo) proporcionado por el Gobierno Regional Piura - GRP.
