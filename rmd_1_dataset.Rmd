@@ -39,11 +39,10 @@ hist(datos$F_VIO, main = "Histograma de f_vio", xlab = "F_VIO", col = "blue")
 hist(datos$M_VIO, main = "Histograma de M_vio", xlab = "M_VIO", col = "blue")
 
 
-## Barras
+
 ```{r}
 # Crear un gráfico de barras
 library(dplyr)
-library(RColorBrewer)
 
 nprov <- datos %>% group_by(PROVINCIA) %>% count()
 
@@ -77,22 +76,6 @@ ggplot(datos, aes(x=F_VIO, y=PROVINCIA)) +
 
 # Rango de edades en donde el sexo femenino ha sido victima de mayores casos de violencia 
 
-
-#Calcular rangos de edades
-datos_edades_general <- datos %>%
-  mutate(Rango_Edades = case_when(
-    !is.na(X5_VIO) ~ "5-10",
-    !is.na(X6_11_VIO) ~ "11-14",
-    !is.na(X12_14_VIO) ~ "12-14",
-    !is.na(X15_17_VIO) ~ "15-17",
-    !is.na(X18_29_VIO) ~ "18-29",
-    !is.na(X30_59_VIO) ~ "30-59",
-    !is.na(X60_VIO) ~ "60+",
-    TRUE ~ "Desconocido"
-  )) %>%
-  group_by(Rango_Edades)  %>%
-  select(Rango_Edades, F_VIO, M_VIO, VIO_PSICO, VIO_FISI, VIO_SEX,PROVINCIA,DISTRITO)
-
 # Combinar las columnas de rango de edades en una sola columna
 datos_edades<- datos %>%
   mutate(Rango_Edades = case_when(
@@ -122,7 +105,30 @@ datos_edades_provincia <- datos %>%
   group_by(Rango_Edades, PROVINCIA) %>%
   summarise(Total_Violencia = sum(F_VIO + M_VIO))
 
-datos_edades_distrito <- datos %>%
+
+ggplot(datos_edades_provincia, aes(x = Rango_Edades, y = Total_Violencia, fill = PROVINCIA)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(x = "Rango de Edades", y = "Total de Violencia", title = "Total de Violencia por Rango de Edades y Provincia") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+
+```
+
+
+```{r}
+
+distrito <-datos %>% group_by(DISTRITO) %>% count()
+
+ggplot(distrito, aes(y=DISTRITO, x=n)) + 
+  geom_bar(stat="identity") 
+
+```
+
+
+
+```{r}
+
+
+frecuencia_edades <- datos %>%
   mutate(Rango_Edades = case_when(
     !is.na(X5_VIO) ~ "5-10",
     !is.na(X6_11_VIO) ~ "11-14",
@@ -133,41 +139,38 @@ datos_edades_distrito <- datos %>%
     !is.na(X60_VIO) ~ "60+",
     TRUE ~ "Desconocido"
   )) %>%
-  group_by(Rango_Edades, DISTRITO) %>%
+  group_by(Rango_Edades) %>%
   summarise(Total_Violencia = sum(F_VIO + M_VIO))
 
+# Visualizar la frecuencia de casos de violencia por rango de edades
+ggplot(frecuencia_edades, aes(x = Rango_Edades, y = Total_Violencia)) +
+  geom_bar(stat = "identity", fill = "skyblue") +
+  labs(title = "Total de Violencia por Rango de Edades",
+       x = "Rango de Edades",
+       y = "Total de Violencia") +
+  theme_minimal()
 
-#Grafico de grupo que mas violencia ha sufrido y su provincia
-ggplot(datos_edades_provincia, aes(x = Rango_Edades, y = Total_Violencia, fill = PROVINCIA)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(x = "Rango de Edades", y = "Total de Violencia", title = "Total de Violencia por Rango de Edades y Provincia") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 
-#Grafico de grupo que mas violencia ha sufrido y su Distrito
-ggplot(datos_edades_distrito, aes(x = Rango_Edades, y = Total_Violencia, fill = DISTRITO)) +
-  geom_bar(stat = "identity", position = "dodge") +
-  labs(x = "Rango de Edades", y = "Total de Violencia", title = "Total de Violencia por Rango de Edades y Provincia") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
+# Calcular la frecuencia de cada tipo de violencia
+frecuencia_tipo_violencia <- datos %>%
+  summarise(Total_Psicologica = sum(VIO_PSICO),
+            Total_Fisica = sum(VIO_FISI),
+            Total_Sexual = sum(VIO_SEX)) %>%
+  gather(key = "Tipo_Violencia", value = "Total_Violencia", -1)
 
-# Barras horizontales para revisar distritos con mas casos de violencia
-colores <- colorRampPalette(c("lightblue", "red"))(length(unique(datos_edades_distrito$Total_Violencia)))
-umbral <- quantile(datos_edades_distrito$Total_Violencia, probs = 0.75)
-datos_edades_distrito_filtrados <- subset(datos_edades_distrito, Total_Violencia >= umbral)
 
-ggplot(datos_edades_distrito_filtrados, aes(x = DISTRITO, y = Total_Violencia, fill = Total_Violencia)) + 
+library(tidyr)
+# Visualizar la frecuencia de cada tipo de violencia
+ggplot(frecuencia_tipo_violencia, aes(x = Tipo_Violencia, y = Total_Violencia, fill = Tipo_Violencia)) +
   geom_bar(stat = "identity") +
-  coord_flip() + 
-  labs(x = "Distrito", y = "Total de Violencia", title = "Total de Violencia por Distrito") +
-  scale_fill_gradientn(colours = colores, limits = c(umbral, max(datos_edades_distrito$Total_Violencia))) + 
-  theme(axis.text.y = element_text(size = 8, hjust = 0.5, margin = margin(0, 0, 10, 0, "pt"))) +
-  theme(plot.margin = margin(10, 10, 30, 10, "pt"))
-
-
+  labs(title = "Total de Violencia por Tipo de Violencia",
+       x = "Tipo de Violencia",
+       y = "Total de Violencia") +
+  scale_fill_manual(values = c("Total_Psicologica" = "skyblue",
+                                "Total_Fisica" = "lightgreen",
+                                "Total_Sexual" = "salmon")) +
+  theme_minimal()
 ```
-
-
-
-
 
      
      
